@@ -333,7 +333,7 @@ class _NinjaFileHeaderGenerator(object):
         # Linking might have a lot of object files exceeding maximal length of a bash command line.
         # Using response file can resolve this problem.
         # Refer to: https://ninja-build.org/manual.html
-        link_args = '-o ${out} ${intrinsic_linkflags} ${linkflags} ${target_linkflags} @${out}.rsp ${extra_linkflags}'
+        link_args = '-o ${out} @${out}.rsp ${intrinsic_linkflags} ${linkflags} ${target_linkflags} ${extra_linkflags}'
         self.generate_rule(name='link',
                            command=ld + ' ' + link_args,
                            rspfile='${out}.rsp',
