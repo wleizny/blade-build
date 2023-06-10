@@ -92,13 +92,14 @@ class ThriftParser(object):
 
 class FBThriftHelper(ThriftParser):
     def get_generated_cpp_files(self):
-        files = ['gen-cpp/%s_constants.cpp' % self.thrift_name,
-                 'gen-cpp/%s_constants.h' % self.thrift_name,
-                 'gen-cpp/%s_reflection.cpp' % self.thrift_name,
+        files = ['gen-cpp/%s_reflection.cpp' % self.thrift_name,
                  'gen-cpp/%s_reflection.h' % self.thrift_name,
                  'gen-cpp/%s_types.cpp' % self.thrift_name,
                  'gen-cpp/%s_types.h' % self.thrift_name,
                  'gen-cpp/%s_types.tcc' % self.thrift_name]
+        if self.has_constants:
+            files.append('gen-cpp/%s_constants.cpp' % thrift_name)
+            files.append('gen-cpp/%s_constants.h' % thrift_name)
         for service in self.services:
             files.append('gen-cpp/%s.cpp' % service)
             files.append('gen-cpp/%s.h' % service)
@@ -106,11 +107,12 @@ class FBThriftHelper(ThriftParser):
         return files
 
     def get_generated_cpp2_files(self):
-        files = ['gen-cpp2/%s_constants.cpp' % self.thrift_name,
-                 'gen-cpp2/%s_constants.h' % self.thrift_name,
-                 'gen-cpp2/%s_types.cpp' % self.thrift_name,
+        files = ['gen-cpp2/%s_types.cpp' % self.thrift_name,
                  'gen-cpp2/%s_types.h' % self.thrift_name,
                  'gen-cpp2/%s_types.tcc' % self.thrift_name]
+        if self.has_constants:
+            files.append('gen-cpp2/%s_constants.cpp' % thrift_name)
+            files.append('gen-cpp2/%s_constants.h' % thrift_name)
         for service in self.services:
             files.append('gen-cpp2/%s.cpp' % service)
             files.append('gen-cpp2/%s.h' % service)
@@ -125,10 +127,12 @@ class ThriftHelper(ThriftParser):
 
     def get_generated_cpp_files(self):
         thrift_name = self.src[:-7]
-        files = ['%s_constants.cpp' % thrift_name,
-                 '%s_constants.h' % thrift_name,
-                 '%s_types.cpp' % thrift_name,
+        files = ['%s_types.cpp' % thrift_name,
                  '%s_types.h' % thrift_name]
+        if self.has_constants:
+            files.append('%s_constants.cpp' % thrift_name)
+            files.append('%s_constants.h' % thrift_name)
+
         dir = os.path.dirname(thrift_name)
         for service in self.services:
             files.append(os.path.join(dir, '%s.cpp' % service))
